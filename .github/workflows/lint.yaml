@@ -18,6 +18,7 @@ jobs:
       PIP_CACHE_DIR: /tmp/pip-cache-dir
       # The Python version your project uses. Feel free to change this if required.
       PYTHON_VERSION: 3.9
+      POETRY_VERSION: 1.1.7
 
     steps:
       # Checks out the repository in the current folder.
@@ -44,31 +45,11 @@ jobs:
           ${{ steps.python.outputs.python-version }}-\
           ${{ hashFiles('./Pipfile', './Pipfile.lock') }}"
 
-      # Uncomment the step that matches your setup.
-
-      # Default Env setup
-      - name: Run hooks through our requirement file
+      - name: Run hooks through our Poetry environment.
         run: |
-          pip install -r dev-requirements.txt
-          pre-commit run --all-files
+          python -m pip install poetry==${{ env.POETRY_VERSION }}
+          poetry install
+          poetry run pre-commit run --all-files
         env:
           # Force pre-commit to do a system install.
           PIP_USER: 0
-
-        # Pipenv setup
-        # - name: Run hooks through our Pipenv environment.
-        #  run: |
-        #    pipenv install --system --dev
-        #    pipenv run python -m pre-commit run --all-files
-        #  env:
-        #    # Force pre-commit to do a system install.
-        #    PIP_USER: 0
-
-        # Poetry setup
-        # - name: Run hooks through our Poetry environment.
-        #  run: |
-        #    poetry install
-        #    poetry run python -m pre-commit run --all-files
-        #  env:
-        #    # Force pre-commit to do a system install.
-        #    PIP_USER: 0
