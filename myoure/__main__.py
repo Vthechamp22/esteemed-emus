@@ -1,5 +1,6 @@
 from typing import NoReturn
 
+import cursor
 from prompt_toolkit import Application
 
 from myoure.layout import kb, layout, style
@@ -11,3 +12,4 @@ def start() -> NoReturn:
     app.output.show_cursor = lambda: None  # Hide the cursor
 
     app.run()
+    cursor.show()

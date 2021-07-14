@@ -19,9 +19,9 @@ from myoure.functions import list_content
 kb = KeyBindings()
 
 
-@kb.add('c-c')
+@kb.add('q')
 def exit_(event: KeyPressEvent) -> NoReturn:
-    """Allows user to exit the app by using Ctrl-C"""
+    """Allows user to exit the app by using Q"""
     event.app.exit()
 
 
