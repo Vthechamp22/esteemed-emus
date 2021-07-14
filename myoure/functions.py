@@ -1,3 +1,4 @@
+'''Functions of the application'''
 from pathlib import Path
 from typing import List, NoReturn
 
