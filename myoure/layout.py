@@ -1,11 +1,12 @@
-'''Prompt toolkit is the main framework for the TUI
-'''
+"""The base layout and style for the application"""
 import os
+from typing import NoReturn
 
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.key_binding.bindings.focus import (
     focus_next, focus_previous
 )
+from prompt_toolkit.key_binding.key_processor import KeyPressEvent
 from prompt_toolkit.layout.containers import (
     HSplit, VerticalAlign, VSplit, Window
 )
@@ -19,9 +20,8 @@ kb = KeyBindings()
 
 
 @kb.add('c-c')
-def exit_(event):
-    '''Allows user to exit the app by using Ctrl-C
-    '''
+def exit_(event: KeyPressEvent) -> NoReturn:
+    """Allows user to exit the app by using Ctrl-C"""
     event.app.exit()
 
 
@@ -30,9 +30,8 @@ kb.add("up")(focus_previous)
 
 
 # Not yet figured out, hopefully will recieve params from button
-def choice():
-    '''Returns what the user has chosen from the button
-    '''
+def choice() -> NoReturn:
+    """Returns what the user has chosen from the button"""
 
 
 start = list_content(os.getcwd())
