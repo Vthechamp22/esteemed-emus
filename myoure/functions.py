@@ -17,10 +17,10 @@ def mkdir(path, name=None):
         except FileExistsError:
             index += 1
 
+
 def rmdir(path):
     path = Path(path)
     try:
         path.rmdir()
     except NotADirectoryError:
         print(f"{path} is not a directory")
-
