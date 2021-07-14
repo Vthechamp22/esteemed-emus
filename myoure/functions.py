@@ -17,7 +17,6 @@ def mkdir(path, name=None):
         except FileExistsError:
             index += 1
 
-
 def rmdir(path):
     path = Path(path)
     try:
