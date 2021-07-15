@@ -20,11 +20,11 @@ class MyoureButton(Button):
             width=width,
         )
         if self.path.is_dir():
-            self.style = "class:dir-button"
+            self.style = "class:file.dir-button"
         elif self.path.is_symlink():
-            self.style = "class:symlink-button"
+            self.style = "class:file.symlink-button"
         elif self.path.is_file():
-            self.style = "class:file-button"
+            self.style = "class:file.file-button"
 
         if get_app().layout.has_focus(self):
             self.style += ".focused"
