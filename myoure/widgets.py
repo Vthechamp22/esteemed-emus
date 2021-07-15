@@ -3,6 +3,7 @@ from typing import Callable
 
 from prompt_toolkit.application.current import get_app
 from prompt_toolkit.formatted_text.base import StyleAndTextTuples
+from prompt_toolkit.layout.containers import WindowAlign
 from prompt_toolkit.widgets import Button
 
 
@@ -29,8 +30,10 @@ class MyoureButton(Button):
         if get_app().layout.has_focus(self):
             self.style += ".focused"
 
+        self.window.align = WindowAlign.LEFT  # Set align to left
+
     def _get_text_fragments(self) -> StyleAndTextTuples:
         frags = super()._get_text_fragments()
-        _old_style, text, handler = frags[2]
-        frags[2] = (self.style, text, handler)
+        _old_style, _, handler = frags[2]
+        frags[2] = (self.style, self.text, handler)  # Just pass in un-padded text
         return frags
