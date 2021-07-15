@@ -12,7 +12,7 @@ from prompt_toolkit.layout.containers import (
 )
 from prompt_toolkit.layout.layout import Layout
 from prompt_toolkit.styles import Style
-from prompt_toolkit.widgets import Box, Button
+from prompt_toolkit.widgets import Box
 
 from myoure.functions import list_content
 from myoure.widgets import MyoureButton
