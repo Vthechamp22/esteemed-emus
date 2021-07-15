@@ -1,19 +1,14 @@
 from pathlib import Path
-from typing import Callable, Optional
-from prompt_toolkit.formatted_text.base import StyleAndTextTuples
-from prompt_toolkit.key_binding.key_bindings import KeyBindings
-from prompt_toolkit.key_binding.key_processor import KeyPressEvent
-from prompt_toolkit.layout.containers import Container, Window, WindowAlign
-from prompt_toolkit.layout.controls import FormattedTextControl
-from prompt_toolkit.mouse_events import MouseEvent, MouseEventType
+from typing import Callable
 
-from prompt_toolkit.widgets import Button
-from prompt_toolkit import HTML
 from prompt_toolkit.application.current import get_app
-from prompt_toolkit.utils import get_cwidth
+from prompt_toolkit.formatted_text.base import StyleAndTextTuples
+from prompt_toolkit.widgets import Button
 
 
 class MyoureButton(Button):
+    """Custom button widget for handling the file display."""
+
     def __init__(self, path: Path, handler: Callable, width: int):
         self.path = path
         self.style = ""
