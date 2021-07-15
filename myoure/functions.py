@@ -1,4 +1,4 @@
-'''Functions of the application'''
+"""Functions of the application"""
 from pathlib import Path
 from typing import List, NoReturn
 
@@ -38,4 +38,13 @@ def rmdir(path: str) -> NoReturn:
     try:
         path.rmdir()
     except NotADirectoryError:
-        print(f"{path} is not a directory")
+        raise Exception(f"{path} is not a directory")
+
+
+def get_extension(path):
+    file = Path(path)
+    if file.is_file():
+        return file.suffix
+    if file.is_dir():
+        return [i.suffix for i in file.iterdir()]
+
