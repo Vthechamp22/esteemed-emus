@@ -9,7 +9,7 @@ def list_content(path: str) -> List:
     :param path: The path to list folders and files from.
     """
     entries = Path(path)
-    content_list = [i.name for i in entries.iterdir()]
+    content_list = [i for i in entries.iterdir()]
     return content_list
 
 

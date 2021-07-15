@@ -15,6 +15,7 @@ from prompt_toolkit.styles import Style
 from prompt_toolkit.widgets import Box, Button
 
 from myoure.functions import list_content
+from myoure.widgets import MyoureButton
 
 kb = KeyBindings()
 
@@ -37,10 +38,8 @@ def choice() -> NoReturn:
 start = list_content(os.getcwd())
 
 # Creates left column with contents of cwd
-maxleft = len(max(start, key=len))
-left_buttons = [
-    Button(text, handler=choice, left_symbol="", right_symbol="", width=maxleft) for text in start
-]
+maxleft = max(len(x.name) for x in start)
+left_buttons = [MyoureButton(file, choice, maxleft) for file in start]
 leftWin = Box(
     body=HSplit(left_buttons, padding=0, align=VerticalAlign.TOP),
     padding=1,
@@ -76,8 +75,13 @@ root_cont = Box(
 
 layout = Layout(container=root_cont)
 
-style = Style([
-    ("pane", "bg:#000000 #000000"),
-    ("button", "#00FF00"),
-    ("button.focused", "bg:#696969"),
-])
+style = Style(
+    [
+        ("pane", "bg:#000000 #000000"),
+        ("button", "#00FF00"),
+        ("button.focused", "bg:#696969"),
+        ("dir-button", "#BBCCDD"),
+        ("file-button", "#AABBCC"),
+        ("symlink-button", "#CCDDEE"),
+    ]
+)
