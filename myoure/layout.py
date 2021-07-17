@@ -24,12 +24,6 @@ def exit_(event: KeyPressEvent) -> NoReturn:
 kb.add("down")(focus_next)
 kb.add("up")(focus_previous)
 
-
-@kb.add('r')
-def right(event: KeyPressEvent) -> NoReturn:
-    pass
-
-
 leftWin, midWin, rightWin = [Folder(i) for i in range(3)]
 
 root_cont = VSplit(
@@ -42,6 +36,25 @@ root_cont = VSplit(
     ])
 
 layout = Layout(container=root_cont)
+
+
+def get(x, a):
+    return x[a].get_children()[0].get_children()[1].get_children()[1].get_children()[0].get_children()
+
+
+@kb.add('right')
+def right(event: KeyPressEvent) -> NoReturn:
+    cont = event.app.layout.container.get_children()
+    leftcol = cont[0].get_children()[1].get_children()[1].get_children()[0].get_children()
+    midcol = cont[2].get_children()[0].get_children()
+    rightcol = cont[4].get_children()[0].get_children()
+    cur = event.app.layout.current_window
+
+    if cur in leftcol:
+        event.app.layout.focus(midcol[0])
+    if cur in midcol:
+        event.app.layout.focus(rightcol[0])
+
 
 style = Style(
     [
