@@ -5,6 +5,7 @@ from typing import Callable, NoReturn
 
 from prompt_toolkit.application.current import get_app
 from prompt_toolkit.formatted_text.base import StyleAndTextTuples
+from prompt_toolkit.layout import ScrollablePane
 from prompt_toolkit.layout.containers import HSplit, VerticalAlign, WindowAlign
 from prompt_toolkit.widgets import Box, Button
 
@@ -19,7 +20,7 @@ class MyoureButton(Button):
     def __init__(self, path: Path, handler: Callable):
         self.path = path
         self.style = ""
-        width = (os.get_terminal_size().columns - 4) // 3
+        width = (os.get_terminal_size().columns - 7) // 3
         name = path.name
         if len(name) > width:
             name = name[0:(width - 3)] + "..."
@@ -67,8 +68,10 @@ class Folder:
         ]
 
         self.layout = Box(
-            body=HSplit(
-                self.buttons, padding=0, align=VerticalAlign.TOP, style="class:pane"
+            body=ScrollablePane(
+                HSplit(
+                    self.buttons, padding=0, align=VerticalAlign.TOP, style="class:pane"
+                )
             ),
             padding=1,
             style="class:pane",
