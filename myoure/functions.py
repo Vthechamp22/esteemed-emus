@@ -5,13 +5,12 @@ from platform import system
 from typing import List, NoReturn
 
 
-def list_content(path: str) -> List:
+def list_content(path: Path) -> List:
     """Lists the files and directories in the given path.
 
     :param path: The path to list folders and files from.
     """
-    entries = Path(path)
-    content_list = [i for i in entries.iterdir()]
+    content_list = [i for i in path.iterdir()]
     return content_list
 
 

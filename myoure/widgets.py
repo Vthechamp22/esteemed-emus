@@ -17,13 +17,17 @@ from myoure.functions import list_content, open_file
 class MyoureButton(Button):
     """Custom button widget for handling the file display."""
 
-    def __init__(self, path: Path, handler: Callable):
+    def __init__(self, path: Path, handler: Callable, back_to_parent: bool = False):
         self.path = path
         self.style = ""
+        name: str
         width = (os.get_terminal_size().columns - 7) // 3
-        name = path.name
-        if len(name) > width:
-            name = name[0:(width - 3)] + "..."
+        if back_to_parent:
+            name = ".."
+        else:
+            name = path.name
+            if len(name) > width:
+                name = name[0: (width - 3)] + "..."
         super().__init__(
             text=f"{name}",
             handler=handler,
@@ -53,19 +57,20 @@ class MyoureButton(Button):
 class Folder:
     """Represents a columnar box."""
 
-    def __init__(self, column_no: int, path: str = None) -> None:
+    def __init__(self, column_no: int, path: Path = None) -> None:
         self.column_no = column_no
         self.buttons = []
         self.files = []
-        if column_no == 0:
-            self.files = list_content(os.getcwd())
-        elif path:
-            self.files = list_content(path)
+        if path is None:
+            path = Path(os.getcwd())
+        self.files = list_content(path)
 
         self.buttons = [
-            MyoureButton(file, partial(self._handler, file))
-            for file in self.files
+            MyoureButton(path.resolve().parent, partial(Folder._go_back, self))
         ]
+        self.buttons.extend(
+            [MyoureButton(file, partial(self._handler, file)) for file in self.files]
+        )
 
         self.layout = Box(
             body=ScrollablePane(
@@ -76,6 +81,10 @@ class Folder:
             padding=1,
             style="class:pane",
         )
+
+    def _go_back(self):
+        self.buttons = []
+        ## TODO: use the function that we use to change column focus
 
     def _handler(self, file: str) -> NoReturn:
         path = Path(file)
