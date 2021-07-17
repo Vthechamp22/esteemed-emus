@@ -83,7 +83,6 @@ class Folder:
         if self.column_no == 1:  # second column
             columns[4] == Folder(2, dir)
         app.layout.container = VSplit(children=columns)
-        print(app.layout.container.get_children()[2])
 
     def is_empty(self) -> bool:
         """Returns whether this column is empty"""
