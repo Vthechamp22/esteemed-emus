@@ -56,6 +56,20 @@ def right(event: KeyPressEvent) -> NoReturn:
         event.app.layout.focus(rightcol[0])
 
 
+@kb.add('left')
+def left(event: KeyPressEvent) -> NoReturn:
+    cont = event.app.layout.container.get_children()
+    leftcol = cont[0].get_children()[1].get_children()[1].get_children()[0].get_children()
+    midcol = cont[2].get_children()[0].get_children()
+    rightcol = cont[4].get_children()[0].get_children()
+    cur = event.app.layout.current_window
+
+    if cur in midcol:
+        event.app.layout.focus(leftcol[0])
+    if cur in rightcol:
+        event.app.layout.focus(midcol[0])
+
+
 style = Style(
     [
         ("pane", "bg:#000000 #ffffff"),
