@@ -80,8 +80,8 @@ style = Style(
         ("pane", "bg:#000000 #000000"),
         ("button", "#00FF00"),
         ("button.focused", "bg:#696969"),
-        ("dir-button", "#BBCCDD"),
-        ("file-button", "#AABBCC"),
-        ("symlink-button", "#CCDDEE"),
+        ("file.dir-button", "#BBCCDD"),
+        ("file.file-button", "#AABBCC"),
+        ("file.symlink-button", "#CCDDEE"),
     ]
 )
