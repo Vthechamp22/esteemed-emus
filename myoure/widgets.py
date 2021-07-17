@@ -5,12 +5,12 @@ from typing import Callable, NoReturn
 
 from prompt_toolkit.application.current import get_app
 from prompt_toolkit.formatted_text.base import StyleAndTextTuples
-from prompt_toolkit.layout.containers import (
-    HSplit, VerticalAlign, WindowAlign
-)
+from prompt_toolkit.layout.containers import HSplit, VerticalAlign, WindowAlign
 from prompt_toolkit.widgets import Box, Button
 
 from myoure.functions import list_content, open_file
+
+# linting fix
 
 
 class MyoureButton(Button):
