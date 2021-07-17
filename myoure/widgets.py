@@ -5,7 +5,9 @@ from typing import Callable, NoReturn
 
 from prompt_toolkit.application.current import get_app
 from prompt_toolkit.formatted_text.base import StyleAndTextTuples
-from prompt_toolkit.layout.containers import HSplit, VerticalAlign, WindowAlign
+from prompt_toolkit.layout.containers import (
+    HSplit, VerticalAlign, VSplit, WindowAlign
+)
 from prompt_toolkit.widgets import Box, Button
 
 from myoure.functions import list_content, open_file
@@ -14,7 +16,7 @@ from myoure.functions import list_content, open_file
 class MyoureButton(Button):
     """Custom button widget for handling the file display."""
 
-    def __init__(self, path: Path, handler: Callable, width: int):
+    def __init__(self, path: Path, handler: Callable, width: int = 12):
         self.path = path
         self.style = ""
         super().__init__(
@@ -46,14 +48,17 @@ class MyoureButton(Button):
 class Folder:
     """Represents a columnar box."""
 
-    def __init__(self, column_no: int) -> None:
+    def __init__(self, column_no: int, path: str = None) -> None:
         self.column_no = column_no
         self.buttons = []
         self.files = []
         if column_no == 0:
             self.files = list_content(os.getcwd())
-            max_len = max(len(x.name) for x in self.files)
-            self.buttons = [MyoureButton(file, partial(self._handler, file), width=max_len) for file in self.files]
+        elif path:
+            self.files = list_content(path)
+
+        # max_len = max(len(x.name) for x in self.files)
+        self.buttons = [MyoureButton(file, partial(self._handler, file)) for file in self.files]
 
         self.layout = Box(
             body=HSplit(self.buttons, padding=0, align=VerticalAlign.TOP),
@@ -67,12 +72,22 @@ class Folder:
             if path.is_file():
                 open_file(path)
             elif path.is_dir():
-                # cd_dir(path, column_no)
-                pass
+                self.cd_dir(str(path.absolute()))
 
-    def cd_dir(self) -> NoReturn:
-        """Bla bla bla."""
-        pass
+    def cd_dir(self, dir: str) -> NoReturn:
+        """Fills or shifts columns to depict opening the folder."""
+        app = get_app()
+        columns = app.layout.container.get_children()
+        if self.column_no == 0:  # First column
+            columns[2] == Folder(1, dir)
+        if self.column_no == 1:  # second column
+            columns[4] == Folder(2, dir)
+        app.layout.container = VSplit(children=columns)
+        print(app.layout.container.get_children()[2])
+
+    def is_empty(self) -> bool:
+        """Returns whether this column is empty"""
+        return len(self.buttons) == 0
 
     def __pt_container__(self) -> Box:
         return self.layout
