@@ -1,5 +1,7 @@
-'''Functions of the application'''
+"""Functions of the application."""
+import subprocess
 from pathlib import Path
+from platform import system
 from typing import List, NoReturn
 
 
@@ -39,3 +41,16 @@ def rmdir(path: str) -> NoReturn:
         path.rmdir()
     except NotADirectoryError:
         print(f"{path} is not a directory")
+
+
+def open_file(path: Path) -> NoReturn:
+    """Opens the file using the system's default handler."""
+    if system() == "Linux":
+        err = subprocess.run(["xdg-open", str(path.resolve())], shell=False)
+    elif system() == "Windows":
+        err = subprocess.run(["start", str(path.resolve())], shell=False)
+    elif system() == "Darwin":
+        err = subprocess.run(["open", str(path.resolve())], shell=False)
+
+    if err.stderr:
+        raise Exception(err.stderr)
