@@ -54,3 +54,39 @@ def open_file(path: Path) -> NoReturn:
 
     if err.stderr:
         raise Exception(err.stderr)
+        raise Exception(f"{path} is not a directory")
+
+
+def get_extension(path):
+    file = Path(path)
+    if file.is_file():
+        return file.suffix
+    if file.is_dir():
+        return [i.suffix for i in file.iterdir()]
+
+
+def mkfileutility(path: str):
+    # utility function to make file, use mkfile function below
+    absolute_path_file = Path(path).absolute()
+    if absolute_path_file.exists():
+        raise FileExistsError(f"{absolute_path_file} already exists")
+
+    else:
+        with absolute_path_file.open("w", encoding="utf-8") as f:
+            f.close()
+
+
+def mkfile(path: str, name: str = None):
+    index = 0
+    while True:
+        try:
+            file = Path(path).absolute() / (
+                'New Empty File' if index == 0 else f"New Empty File {index}") if name is None else name
+            mkfileutility(file)
+            break
+        except FileExistsError:
+            index += 1
+
+
+def rmfile(path: str):
+    Path(path).unlink()
