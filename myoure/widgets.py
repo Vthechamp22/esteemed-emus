@@ -61,12 +61,17 @@ class Folder:
         if self.files != []:
             max_len = max(len(x.name) for x in self.files) + 1
 
-        self.buttons = [MyoureButton(file, partial(self._handler, file), max_len) for file in self.files]
+        self.buttons = [
+            MyoureButton(file, partial(self._handler, file), max_len)
+            for file in self.files
+        ]
 
         self.layout = Box(
-            body=HSplit(self.buttons, padding=0, align=VerticalAlign.TOP),
+            body=HSplit(
+                self.buttons, padding=0, align=VerticalAlign.TOP, style="class:pane"
+            ),
             padding=1,
-            style="class:pane"
+            style="class:pane",
         )
 
     def _handler(self, file: str) -> NoReturn:
