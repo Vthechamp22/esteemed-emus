@@ -40,7 +40,7 @@ layout = Layout(container=root_cont)
 
 style = Style(
     [
-        ("pane", "bg:#000000 #000000"),
+        ("pane", "bg:#000000 #ffffff"),
         ("button", "#00FF00"),
         ("button.focused", "bg:#696969"),
         ("file.dir-button", "#BBCCDD"),
