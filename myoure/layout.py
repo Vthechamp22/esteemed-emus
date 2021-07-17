@@ -25,6 +25,11 @@ kb.add("down")(focus_next)
 kb.add("up")(focus_previous)
 
 
+@kb.add('r')
+def right(event: KeyPressEvent) -> NoReturn:
+    pass
+
+
 leftWin, midWin, rightWin = [Folder(i) for i in range(3)]
 
 root_cont = VSplit(

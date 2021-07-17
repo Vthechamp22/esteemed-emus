@@ -5,7 +5,6 @@ from typing import Callable, NoReturn
 
 from prompt_toolkit.application.current import get_app
 from prompt_toolkit.formatted_text.base import StyleAndTextTuples
-from prompt_toolkit.layout import ScrollablePane
 from prompt_toolkit.layout.containers import HSplit, VerticalAlign, WindowAlign
 from prompt_toolkit.widgets import Box, Button
 
@@ -17,11 +16,15 @@ from myoure.functions import list_content, open_file
 class MyoureButton(Button):
     """Custom button widget for handling the file display."""
 
-    def __init__(self, path: Path, handler: Callable, width: int = 12):
+    def __init__(self, path: Path, handler: Callable):
         self.path = path
         self.style = ""
+        width = (os.get_terminal_size().columns - 4) // 3
+        name = path.name
+        if len(name) > width:
+            name = name[0:(width - 3)] + "..."
         super().__init__(
-            text=f"{path.name}",
+            text=f"{name}",
             handler=handler,
             left_symbol="",
             right_symbol="",
@@ -53,25 +56,19 @@ class Folder:
         self.column_no = column_no
         self.buttons = []
         self.files = []
-        max_len = 12
         if column_no == 0:
             self.files = list_content(os.getcwd())
         elif path:
             self.files = list_content(path)
 
-        if self.files != []:
-            max_len = max(len(x.name) for x in self.files) + 1
-
         self.buttons = [
-            MyoureButton(file, partial(self._handler, file), max_len)
+            MyoureButton(file, partial(self._handler, file))
             for file in self.files
         ]
 
         self.layout = Box(
-            body=ScrollablePane(
-                HSplit(
-                    self.buttons, padding=0, align=VerticalAlign.TOP, style="class:pane"
-                )
+            body=HSplit(
+                self.buttons, padding=0, align=VerticalAlign.TOP, style="class:pane"
             ),
             padding=1,
             style="class:pane",
