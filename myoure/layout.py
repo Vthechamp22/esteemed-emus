@@ -9,7 +9,6 @@ from prompt_toolkit.key_binding.key_processor import KeyPressEvent
 from prompt_toolkit.layout import Layout
 from prompt_toolkit.layout.containers import VSplit, Window
 from prompt_toolkit.styles import Style
-from prompt_toolkit.widgets import Box
 
 from myoure.widgets import Folder
 
@@ -28,20 +27,14 @@ kb.add("up")(focus_previous)
 
 leftWin, midWin, rightWin = [Folder(i) for i in range(3)]
 
-root_cont = Box(
-    body=VSplit(
-        children=[
-            leftWin,
-            Window(width=1, char='│'),
-            midWin,
-            Window(width=1, char='│'),
-            rightWin,
-        ]),
-    padding_left=0,
-    padding_right=0,
-    padding_bottom=0,
-    padding_top=0,
-)
+root_cont = VSplit(
+    children=[
+        leftWin,
+        Window(width=1, char='│'),
+        midWin,
+        Window(width=1, char='│'),
+        rightWin,
+    ])
 
 layout = Layout(container=root_cont)
 
